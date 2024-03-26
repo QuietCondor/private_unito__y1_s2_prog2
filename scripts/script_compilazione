@@ -1,0 +1,7 @@
+cc -I. -g -Wall -Werror  *.c
+# controllo errore comando precedente
+if [ $? -eq 0 ]; then
+a.out
+else
+ echo "ERRORE!!!"
+fi
