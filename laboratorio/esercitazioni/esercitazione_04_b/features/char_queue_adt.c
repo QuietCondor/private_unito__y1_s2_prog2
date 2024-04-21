@@ -1,5 +1,6 @@
 #include "./charQueueADT.h"
 #include <stdlib.h>
+#include <string.h>
 
 /* il valore 8 può essere cambiato */
 #define INITIAL_CAPACITY 2
@@ -57,6 +58,29 @@ int get_next_position(int size, int current_pointier){
     return ( current_pointier + 1 ) % size;
 }
 
+int get_previous_position(int size, int current_pointer) {
+    return (current_pointer - 1 + size) % size;
+}
+
+char* reallocate_array(char* arr, int old_size, int new_size, int front, int rear) {
+    char* new_arr = (char*) calloc(new_size, sizeof(char)); // Utilizza calloc per inizializzare a zero.
+    if (new_arr == NULL) {
+        return NULL;
+    }
+    
+    if (rear > front) {
+        // Copia direttamente se non circolare.
+        memcpy(new_arr, arr + front, (rear - front) * sizeof(char));
+    } else if (rear <= front && old_size > 0) { // Aggiunta di controllo per old_size
+        // Copia in due passi se circolare.
+        int size_first_part = old_size - front;
+        memcpy(new_arr, arr + front, size_first_part * sizeof(char));
+        memcpy(new_arr + size_first_part, arr, rear * sizeof(char));
+    }
+
+    return new_arr;
+}
+
 char* extend_array(char* arr, int current_dimension, int desired_dimension){
     if (arr == NULL){
         return NULL;
@@ -102,10 +126,18 @@ _Bool enqueue(CharQueueADT q, const char e) {
         return 0;
     }
 
-    if(q->size + 1 >= q->capacity){
-        // allungare array di 8
-        q->a = extend_array(q->a, q->capacity, q->capacity * EXPAND_CAPACITY_PARAM);
-        q->capacity = q->capacity * EXPAND_CAPACITY_PARAM;
+    if(q->size == q->capacity){
+        int new_capacity = q->capacity * EXPAND_CAPACITY_PARAM;
+        char* new_arr = reallocate_array(q->a, q->capacity, new_capacity, q->front, q->rear);
+        if (!new_arr) {
+            return 0;
+        }
+        free(q->a);
+        q->a = new_arr;
+        // Realign front and rear
+        q->rear = q->size; // rear ora è la prima posizione libera dopo tutti gli elementi.
+        q->front = 0; // front ora è 0 poiché tutti gli elementi sono allineati dall'inizio.
+        q->capacity = new_capacity;
     }
 
     q->a[q->rear] = e;
@@ -129,10 +161,18 @@ _Bool dequeue(CharQueueADT q, char* res) {
     q->front = get_next_position(q->capacity, q->front);
     q->size--;
 
-    if(q->size < q->capacity / 4 ){
-        // dimezzo capacity
-        q->a = reduce_array(q->a, q->capacity, q->capacity / 2, &(q->front), &(q->rear));
-        q->capacity = q->capacity / 2;
+    if (q->capacity > INITIAL_CAPACITY && q->size <= q->capacity / REDUCE_CAPACITY_PARAM) {
+        int new_capacity = q->capacity / EXPAND_CAPACITY_PARAM;
+        char* new_arr = reallocate_array(q->a, q->capacity, new_capacity, q->front, q->rear);
+        if (!new_arr) {
+            return 0;
+        }
+        free(q->a);
+        q->a = new_arr;
+        // Realign front and rear
+        q->rear = q->size;
+        q->front = 0;
+        q->capacity = new_capacity;
     }
 
     return 1;
