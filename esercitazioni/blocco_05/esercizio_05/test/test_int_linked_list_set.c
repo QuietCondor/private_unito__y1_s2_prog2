@@ -85,6 +85,26 @@ int check_dsSet2() {
     return passed;  
 }
 
+int check_dsSet3() {
+    int passed = 1;
+    _Bool rv;
+    IntSetADT sptr = mkSet();
+    printf("dsSet({1,2,3})\n");
+    set_add(sptr, 1);
+    set_add(sptr, 2); 
+    set_add(sptr, 3); 
+    rv = dsSet(&sptr);
+    if (!rv || sptr) {
+        printf("FAILED\n");
+        printf("EXPECTED: NOT %d AND PTR %ld\n", 0, (long)NULL); 
+        passed=0;  
+    } else {
+        printf("OK\n");
+    }
+    printf("RESULT:%d AND PTR %ld\n\n", rv, (long)sptr);  
+    return passed;
+}
+
 int check_set_add1() {
     int passed=1;
     _Bool rv;
@@ -1102,8 +1122,16 @@ int check_set_union4() {
     IntSetADT sptr1,sptr2;
     IntSetADT uset,expset;
 
-    sptr1 = mkSetv(3,3,5,7);  
-    sptr2 = mkSetv(1,5);
+    sptr1 = mkSet();
+    set_add(sptr1, 3);
+    set_add(sptr1, 5);
+    set_add(sptr1, 7);
+
+    sptr2 = mkSet();
+    set_add(sptr2, 5);
+
+    //sptr1 = mkSetv(3,5,7);  
+    //sptr2 = mkSetv(5);
     uset = set_union(sptr1,sptr2);
     printf("set_union({3,5,7},{5})\n");
     expset = mkSetv(3,7,5,3);
@@ -1397,6 +1425,7 @@ int main(int argc, char *argv[]) {
     printf("TEST dsSet\n");
     check_dsSet1();
     check_dsSet2();
+    check_dsSet3();
     printf("\n");
   }
 

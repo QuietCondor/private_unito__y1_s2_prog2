@@ -230,7 +230,7 @@ _Bool set_equals(const IntSetADT set1, const IntSetADT set2) {
     }
 
     ListNodePtr set_1_pointier = set1->front;
-    ListNodePtr set_2_pointier = set1->front;
+    ListNodePtr set_2_pointier = set2->front;
 
     bool are_equal = true;
     for(int i=0; i < set1->size && are_equal; i++){
@@ -286,14 +286,177 @@ _Bool subset(const IntSetADT set1, const IntSetADT set2) {
     return subseteq(set1, set2);
 }
 
+void copy_set(const IntSetADT set1, IntSetADT* set2){
+    if(set2 == NULL){
+        *set2 = mkSet();
+    }
+
+    for(ListNodePtr node=set1->front; node != NULL; node = node->next){
+        ListNodePtr prev = NULL;
+        ListNodePtr found_node_in_one = try_find((*set2)->front, node->data, &prev );
+
+        if(found_node_in_one == NULL){
+            set_add(*set2, node->data);
+        }
+    }
+}
+
 IntSetADT set_union(const IntSetADT set1, const IntSetADT set2) {
-    return NULL;
+    if(set1 == NULL && set2 == NULL){
+        return NULL;
+    }
+
+    if(set1 == NULL){
+        return NULL;
+    }
+
+    if(set2 == NULL){
+        return NULL;
+    }
+
+    IntSetADT union_set = mkSet();
+
+    if (union_set == NULL){
+        return NULL;
+    }
+
+    if(set_equals(set1, set2)){
+        copy_set(set2, &union_set);
+        return union_set;
+    }
+
+
+    if(set1->front == NULL || set1->size == 0){
+        copy_set(set2, &union_set);
+        return union_set;
+    }
+
+    if(set2->front == NULL || set2->size == 0){
+        copy_set(set1, &union_set);
+        return union_set;
+    }
+
+    int max_size = set1->size > set2->size ? set1->size : set2->size;
+    ListNodePtr set_one_node = set1->front;
+    ListNodePtr set_two_node = set2->front;
+
+    
+
+    for(int i=0; i<max_size; i++){
+        ListNodePtr prev = NULL;
+        
+        if(set_two_node != NULL){
+            ListNodePtr found_node_in_one = try_find(union_set->front, set_two_node->data, &prev );
+            if(found_node_in_one == NULL){
+                set_add(union_set, set_two_node->data);
+            }
+            set_two_node = set_two_node->next;
+        }
+
+        if(set_one_node != NULL){
+            ListNodePtr found_node_in_two = try_find(union_set->front, set_one_node->data, &prev );
+            if(found_node_in_two == NULL){
+                set_add(union_set, set_one_node->data);
+            }
+            set_one_node = set_one_node->next;
+        }
+
+    }
+
+    return union_set;
 }
 
 IntSetADT set_intersection(const IntSetADT set1, const IntSetADT set2) {
-    return NULL;
+    if(set1 == NULL && set2 == NULL){
+        return NULL;
+    }
+
+    if(set1 == NULL){
+        return NULL;
+    }
+
+    if(set2 == NULL){
+        return NULL;
+    }
+
+    IntSetADT intersection_set = mkSet();
+
+    if (intersection_set == NULL){
+        return NULL;
+    }
+
+    if(set1->front == NULL || set1->size == 0){
+        return intersection_set;
+    }
+
+    if(set2->front == NULL || set2->size == 0){
+        return intersection_set;
+    }
+
+    if(set_equals(set1, set2)){
+        copy_set(set2, &intersection_set);
+        return intersection_set;
+    }
+
+    int max_size = set1->size > set2->size ? set1->size : set2->size;
+    ListNodePtr set_one_node = set1->front;
+    ListNodePtr set_two_node = set2->front;
+
+    
+
+    for(int i=0; i<max_size; i++){
+        ListNodePtr prev = NULL;
+        
+        if(set_two_node != NULL){
+            ListNodePtr found_node_in_one = try_find(set1->front, set_two_node->data, &prev );
+            ListNodePtr found_intersect = try_find(intersection_set->front, set_two_node->data, &prev );
+            if(found_node_in_one != NULL && found_intersect == NULL){
+                set_add(intersection_set, set_two_node->data);
+            }
+            set_two_node = set_two_node->next;
+        }
+
+        if(set_one_node != NULL){
+            ListNodePtr found_two_in_one = try_find(set2->front, set_one_node->data, &prev );
+            ListNodePtr found_intersect = try_find(intersection_set->front, set_one_node->data, &prev );
+            if(found_two_in_one != NULL && found_intersect == NULL){
+                set_add(intersection_set, set_one_node->data);
+            }
+            set_one_node = set_one_node->next;
+        }
+
+    }
+
+    return intersection_set;
 }
 
 IntSetADT set_subtraction(const IntSetADT set1, const IntSetADT set2) {
-    return NULL;
+    if(set1 == NULL || set2 == NULL || set1->front == NULL || set1->front == NULL){
+        return NULL;
+    }
+
+    IntSetADT subtr_set = mkSet();
+
+    if (subtr_set == NULL){
+        return NULL;
+    }
+
+    if(set_size(set1) == 0){
+        return subtr_set;
+    }
+
+    if(set_size(set2) == 0){
+        copy_set(set1, &subtr_set);
+
+        return subtr_set;
+    }
+
+    copy_set(set1, &subtr_set);
+
+    // devo togliere gli elementi di set2 che stanno in set1
+    for(ListNodePtr node = set2->front; node != NULL; node = node->next){
+        set_remove(subtr_set, node->data);
+    }
+
+    return subtr_set;
 }
