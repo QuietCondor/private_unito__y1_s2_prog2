@@ -2327,6 +2327,533 @@ int check_sset_subseteq(){
 int check_sset_subset() {
     int passed=1;
 
+    // casi da testare:
+    // - NULL, NULL = false (?)
+    if(passed){
+        IntSortedSetADT set_first = NULL;
+        IntSortedSetADT set_second = NULL;
+        printf("sset_subset(NULL, NULL)\n");
+        bool local_result = sset_subset(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+
+        bool set_first_is_good = set_first == NULL
+            ;
+        bool set_second_is_good = set_second == NULL
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result == false;
+
+        printf("\tEXPECTED: set_first == NULL, set_second == NULL  with FALSE\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %d\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            local_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {}, {} = false
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        
+        IntSortedSetADT set_second = mkSSet();
+        
+        printf("sset_subset({}, {})\n");
+        bool local_result = sset_subset(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first == NULL 
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first == NULL 
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result == false;
+
+        printf("\tEXPECTED: set_first == {}, set_second == {}  with FALSE\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %d\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            local_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {}, NULL = false
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        IntSortedSetADT set_second = NULL;
+        printf("sset_subset({}, NULL)\n");
+        bool local_result = sset_subset(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first == NULL 
+            ;
+        bool set_second_is_good = set_second == NULL
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result == false;
+
+        printf("\tEXPECTED: set_first == {}, set_second == NULL  with FALSE\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %d\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            local_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - NULL, {} = false
+    if(passed){
+        IntSortedSetADT set_first = NULL;
+        IntSortedSetADT set_second = mkSSet();
+        printf("sset_subset(NULL, {})\n");
+        bool local_result = sset_subset(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+
+        bool set_first_is_good = set_first == NULL
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first == NULL 
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result == false;
+
+        printf("\tEXPECTED: set_first == NULL, set_second == {}  with FALSE\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %d\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            local_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {1,2,3}, {} = false
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        sset_add(set_first, 2);
+        sset_add(set_first, 3);
+        IntSortedSetADT set_second = mkSSet();
+        printf("sset_subset({1,2,3}, {})\n");
+        bool local_result = sset_subset(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->first->next != NULL && set_first->first->next->elem == 2
+            && set_first->last != NULL && set_first->last->elem == 3
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first == NULL
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result == false;
+
+        printf("\tEXPECTED: set_first == {1,2,3}, set_second == {}  with FALSE\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %d\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            local_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {}, {1,2,3} = true
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        printf("sset_subset({}, {1,2,3})\n");
+        bool local_result = sset_subset(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first == NULL 
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->last != NULL && set_second->last->elem == 3
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result == true;
+
+        printf("\tEXPECTED: set_first == {}, set_second == {1,2,3}  with TRUE\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %d\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            local_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {1}, {1,2,3} = true
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        printf("sset_subset({1}, {1,2,3})\n");
+        bool local_result = sset_subset(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->last != NULL && set_first->last->elem == 1
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->last != NULL && set_second->last->elem == 3
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result == true;
+
+        printf("\tEXPECTED: set_first == {1}, set_second == {1,2,3}  with TRUE\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %d\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            local_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {1,2}, {1,2,3} = true
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        sset_add(set_first, 2);
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        printf("sset_subset({1,2}, {1,2,3})\n");
+        bool local_result = sset_subset(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->last != NULL && set_first->last->elem == 2
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->last != NULL && set_second->last->elem == 3
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result == true;
+
+        printf("\tEXPECTED: set_first == {1,2}, set_second == {1,2,3}  with TRUE\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %d\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            local_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {1,2,3}, {1,2,3} = false
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        sset_add(set_first, 2);
+        sset_add(set_first, 3);
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        printf("sset_subset({1,2,3}, {1,2,3})\n");
+        bool local_result = sset_subset(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->first->next != NULL && set_first->first->next->elem == 2
+            && set_first->last != NULL && set_first->last->elem == 3
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->last != NULL && set_second->last->elem == 3
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result == false;
+
+        printf("\tEXPECTED: set_first == {1,2,3}, set_second == {1,2,3}  with FALSE\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %d\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            local_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {1,2,3,4}, {1,2,3} = false
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        sset_add(set_first, 2);
+        sset_add(set_first, 3);
+        sset_add(set_first, 4);
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        printf("sset_subset({1,2,3,4}, {1,2,3})\n");
+        bool local_result = sset_subset(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->first->next != NULL && set_first->first->next->elem == 2
+            && set_first->first->next->next != NULL && set_first->first->next->next->elem == 3
+            && set_first->last != NULL && set_first->last->elem == 4
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->last != NULL && set_second->last->elem == 3
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result == false;
+
+        printf("\tEXPECTED: set_first == {1,2,3,4}, set_second == {1,2,3}  with FALSE\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %d\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            local_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+
     return passed;
 }
 
@@ -2334,11 +2861,1331 @@ int check_sset_subset() {
 int check_sset_union() {
     int passed=1;
 
+    // casi da testare:
+    // - NULL, NULL => NULL
+    if(passed){
+        IntSortedSetADT set_first = NULL;
+        IntSortedSetADT set_second = NULL;
+        printf("sset_union(NULL, NULL)\n");
+        IntSortedSetADT local_result = sset_union(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first == NULL
+            ;
+        bool set_second_is_good = set_second == NULL
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result == NULL;
+
+        printf("\tEXPECTED: set_first == NULL, set_second == NULL  with NULL\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {}, {} => {}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        
+        IntSortedSetADT set_second = mkSSet();
+        
+        printf("sset_union({}, {})\n");
+        IntSortedSetADT local_result = sset_union(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first == NULL 
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first == NULL 
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first == NULL
+            && local_result->last == NULL
+            ;
+
+        printf("\tEXPECTED: set_first == {}, set_second == {}  with {}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - NULL, {} => NULL
+    if(passed){
+        IntSortedSetADT set_first = NULL;
+        IntSortedSetADT set_second = mkSSet();
+        printf("sset_union(NULL, {})\n");
+        IntSortedSetADT local_result = sset_union(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first == NULL
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first == NULL 
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result == NULL;
+
+        printf("\tEXPECTED: set_first == NULL, set_second == {}  with NULL\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {}, NULL => NULL
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        IntSortedSetADT set_second = NULL;
+        printf("sset_union({}, NULL)\n");
+        IntSortedSetADT local_result = sset_union(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first == NULL 
+            ;
+        bool set_second_is_good = set_second == NULL
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result == NULL;
+
+        printf("\tEXPECTED: set_first == {}, set_second == NULL  with NULL\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {}, {1,2,3} => {1,2,3}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        printf("sset_union({}, {1,2,3})\n");
+        IntSortedSetADT local_result = sset_union(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first == NULL 
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->last != NULL && set_second->last->elem == 3
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first != NULL && local_result->first->elem == 1
+            && local_result->first->next != NULL && local_result->first->next->elem == 2
+            && local_result->last != NULL && local_result->last->elem == 3
+            ;
+
+        printf("\tEXPECTED: set_first == {}, set_second == {1,2,3}  with {1,2,3}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {1}, {1,2,3} => {1,2,3}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        printf("sset_union({1}, {1,2,3})\n");
+        IntSortedSetADT local_result = sset_union(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->last != NULL && set_first->last->elem == 1
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->last != NULL && set_second->last->elem == 3
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first != NULL && local_result->first->elem == 1
+            && local_result->first->next != NULL && local_result->first->next->elem == 2
+            && local_result->last != NULL && local_result->last->elem == 3
+            ;
+
+        printf("\tEXPECTED: set_first == {1}, set_second == {1,2,3}  with {1,2,3}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {1,2}, {1,2,3} => {1,2,3}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        sset_add(set_first, 2);
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        printf("sset_union({1,2}, {1,2,3})\n");
+        IntSortedSetADT local_result = sset_union(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->last != NULL && set_first->last->elem == 2
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->last != NULL && set_second->last->elem == 3
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first != NULL && local_result->first->elem == 1
+            && local_result->first->next != NULL && local_result->first->next->elem == 2
+            && local_result->last != NULL && local_result->last->elem == 3
+            ;
+
+        printf("\tEXPECTED: set_first == {1,2}, set_second == {1,2,3}  with {1,2,3}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {1,2,3}, {1,2,3} => {1,2,3}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        sset_add(set_first, 2);
+        sset_add(set_first, 3);
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        printf("sset_union({1,2,3}, {1,2,3})\n");
+        IntSortedSetADT local_result = sset_union(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->first->next != NULL && set_first->first->next->elem == 2
+            && set_first->last != NULL && set_first->last->elem == 3
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->last != NULL && set_second->last->elem == 3
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first != NULL && local_result->first->elem == 1
+            && local_result->first->next != NULL && local_result->first->next->elem == 2
+            && local_result->last != NULL && local_result->last->elem == 3
+            ;
+
+        printf("\tEXPECTED: set_first == {1,2,3}, set_second == {1,2,3}  with {1,2,3}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {1,2,3,4}, {1,2,3} => {1,2,3,4}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        sset_add(set_first, 2);
+        sset_add(set_first, 3);
+        sset_add(set_first, 4);
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        printf("sset_union({1,2,3,4}, {1,2,3})\n");
+        IntSortedSetADT local_result = sset_union(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->first->next != NULL && set_first->first->next->elem == 2
+            && set_first->first->next->next != NULL && set_first->first->next->next->elem == 3
+            && set_first->last != NULL && set_first->last->elem == 4
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->last != NULL && set_second->last->elem == 3
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first != NULL && local_result->first->elem == 1
+            && local_result->first->next != NULL && local_result->first->next->elem == 2
+            && local_result->first->next->next != NULL && local_result->first->next->next->elem == 3
+            && local_result->last != NULL && local_result->last->elem == 4
+            ;
+
+        printf("\tEXPECTED: set_first == {1,2,3,4}, set_second == {1,2,3}  with {1,2,3,4}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {1,2,3}, {1,2,3,4} => {1,2,3,4}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        sset_add(set_first, 2);
+        sset_add(set_first, 3);
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        sset_add(set_second, 4);
+        printf("sset_union({1,2,3}, {1,2,3,4})\n");
+        IntSortedSetADT local_result = sset_union(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->first->next != NULL && set_first->first->next->elem == 2
+            && set_first->last != NULL && set_first->last->elem == 3
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->first->next->next != NULL && set_second->first->next->next->elem == 3
+            && set_second->last != NULL && set_second->last->elem == 4
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first != NULL && local_result->first->elem == 1
+            && local_result->first->next != NULL && local_result->first->next->elem == 2
+            && local_result->first->next->next != NULL && local_result->first->next->next->elem == 3
+            && local_result->last != NULL && local_result->last->elem == 4
+            ;
+
+        printf("\tEXPECTED: set_first == {1,2,3}, set_second == {1,2,3,4}  with {1,2,3,4}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+
+    // - {1,2}, {3,4} => {1,2,3,4}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        sset_add(set_first, 2);
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 3);
+        sset_add(set_second, 4);
+        printf("sset_union({1,2}, {3,4})\n");
+        IntSortedSetADT local_result = sset_union(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->last != NULL && set_first->last->elem == 2
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 3
+            && set_second->last != NULL && set_second->last->elem == 4
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first != NULL && local_result->first->elem == 1
+            && local_result->first->next != NULL && local_result->first->next->elem == 2
+            && local_result->first->next->next != NULL && local_result->first->next->next->elem == 3
+            && local_result->last != NULL && local_result->last->elem == 4
+            ;
+
+        printf("\tEXPECTED: set_first == {1,2}, set_second == {3,4}  with {1,2,3,4}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
     return passed;
 }
 
 int check_sset_intersection() {
     int passed=1;
+
+    // casi da testare:
+    // - NULL, NULL => NULL
+    if(passed){
+        IntSortedSetADT set_first = NULL;
+        IntSortedSetADT set_second = NULL;
+        printf("sset_intersection(NULL, NULL)\n");
+        IntSortedSetADT local_result = sset_intersection(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first == NULL
+            ;
+        bool set_second_is_good = set_second == NULL
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result == NULL;
+
+        printf("\tEXPECTED: set_first == NULL, set_second == NULL  with NULL\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {}, {} => {}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        
+        IntSortedSetADT set_second = mkSSet();
+        
+        printf("sset_intersection({}, {})\n");
+        IntSortedSetADT local_result = sset_intersection(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first == NULL 
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first == NULL 
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first == NULL
+            && local_result->last == NULL
+            ;
+
+        printf("\tEXPECTED: set_first == {}, set_second == {}  with {}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - NULL, {} => NULL
+    if(passed){
+        IntSortedSetADT set_first = NULL;
+        IntSortedSetADT set_second = mkSSet();
+        printf("sset_intersection(NULL, {})\n");
+        IntSortedSetADT local_result = sset_intersection(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first == NULL
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first == NULL 
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result == NULL;
+
+        printf("\tEXPECTED: set_first == NULL, set_second == {}  with NULL\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {}, NULL => NULL
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        IntSortedSetADT set_second = NULL;
+        printf("sset_intersection({}, NULL)\n");
+        IntSortedSetADT local_result = sset_intersection(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first == NULL 
+            ;
+        bool set_second_is_good = set_second == NULL
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result == NULL;
+
+        printf("\tEXPECTED: set_first == {}, set_second == NULL  with NULL\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {}, {1,2,3} => {}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        printf("sset_intersection({}, {1,2,3})\n");
+        IntSortedSetADT local_result = sset_intersection(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first == NULL 
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->last != NULL && set_second->last->elem == 3
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first == NULL
+            && local_result->last == NULL 
+            ;
+
+        printf("\tEXPECTED: set_first == {}, set_second == {1,2,3}  with {}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+
+    // - {1,2,3}, {} => {}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        sset_add(set_first, 2);
+        sset_add(set_first, 3);
+        IntSortedSetADT set_second = mkSSet();
+        printf("sset_intersection({1,2,3}, {})\n");
+        IntSortedSetADT local_result = sset_intersection(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->first->next != NULL && set_first->first->next->elem == 2
+            && set_first->last != NULL && set_first->last->elem == 3
+            
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first == NULL 
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first == NULL
+            && local_result->last == NULL 
+            ;
+
+        printf("\tEXPECTED: set_first == {1,2,3}, set_second == {}  with {}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+
+    // - {1}, {1,2,3} => {1}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        printf("sset_intersection({1}, {1,2,3})\n");
+        IntSortedSetADT local_result = sset_intersection(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->last != NULL && set_first->last->elem == 1
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->last != NULL && set_second->last->elem == 3
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first != NULL && local_result->first->elem == 1
+            && local_result->last != NULL && local_result->last->elem == 1
+            ;
+
+        printf("\tEXPECTED: set_first == {1}, set_second == {1,2,3}  with {1}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {1,2}, {1,2,3} => {1,2}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        sset_add(set_first, 2);
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        printf("sset_intersection({1,2}, {1,2,3})\n");
+        IntSortedSetADT local_result = sset_intersection(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->last != NULL && set_first->last->elem == 2
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->last != NULL && set_second->last->elem == 3
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first != NULL && local_result->first->elem == 1
+            && local_result->last != NULL && local_result->last->elem == 2
+            ;
+
+        printf("\tEXPECTED: set_first == {1,2}, set_second == {1,2,3}  with {1,2}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {1,2,3}, {1,2,3} => {1,2,3}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        sset_add(set_first, 2);
+        sset_add(set_first, 3);
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        printf("sset_intersection({1,2,3}, {1,2,3})\n");
+        IntSortedSetADT local_result = sset_intersection(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->first->next != NULL && set_first->first->next->elem == 2
+            && set_first->last != NULL && set_first->last->elem == 3
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->last != NULL && set_second->last->elem == 3
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first != NULL && local_result->first->elem == 1
+            && local_result->first->next != NULL && local_result->first->next->elem == 2
+            && local_result->last != NULL && local_result->last->elem == 3
+            ;
+
+        printf("\tEXPECTED: set_first == {1,2,3}, set_second == {1,2,3}  with {1,2,3}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {1,2,3,4}, {1,2,3} => {1,2,3}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        sset_add(set_first, 2);
+        sset_add(set_first, 3);
+        sset_add(set_first, 4);
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        printf("sset_intersection({1,2,3,4}, {1,2,3})\n");
+        IntSortedSetADT local_result = sset_intersection(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->first->next != NULL && set_first->first->next->elem == 2
+            && set_first->first->next->next != NULL && set_first->first->next->next->elem == 3
+            && set_first->last != NULL && set_first->last->elem == 4
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->last != NULL && set_second->last->elem == 3
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first != NULL && local_result->first->elem == 1
+            && local_result->first->next != NULL && local_result->first->next->elem == 2
+            && local_result->last != NULL && local_result->last->elem == 3
+            ;
+
+        printf("\tEXPECTED: set_first == {1,2,3,4}, set_second == {1,2,3}  with {1,2,3}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {1,2,3}, {1,2,3,4} => {1,2,3}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        sset_add(set_first, 2);
+        sset_add(set_first, 3);
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        sset_add(set_second, 4);
+        printf("sset_intersection({1,2,3}, {1,2,3,4})\n");
+        IntSortedSetADT local_result = sset_intersection(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->first->next != NULL && set_first->first->next->elem == 2
+            && set_first->last != NULL && set_first->last->elem == 3
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->first->next->next != NULL && set_second->first->next->next->elem == 3
+            && set_second->last != NULL && set_second->last->elem == 4
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first != NULL && local_result->first->elem == 1
+            && local_result->first->next != NULL && local_result->first->next->elem == 2
+            && local_result->last != NULL && local_result->last->elem == 3
+            ;
+
+        printf("\tEXPECTED: set_first == {1,2,3}, set_second == {1,2,3,4}  with {1,2,3}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+
+    // - {1,2}, {3,4} => {}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        sset_add(set_first, 2);
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 3);
+        sset_add(set_second, 4);
+        printf("sset_intersection({1,2}, {3,4})\n");
+        IntSortedSetADT local_result = sset_intersection(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->last != NULL && set_first->last->elem == 2
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 3
+            && set_second->last != NULL && set_second->last->elem == 4
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first == NULL
+            && local_result->last == NULL
+            ;
+
+        printf("\tEXPECTED: set_first == {1,2}, set_second == {3,4}  with {}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
 
     return passed;
 }
@@ -2346,11 +4193,878 @@ int check_sset_intersection() {
 int check_sset_subtraction() {
     int passed=1;
 
+    // casi da testare:
+    // - NULL, NULL => NULL
+    if(passed){
+        IntSortedSetADT set_first = NULL;
+        IntSortedSetADT set_second = NULL;
+        printf("sset_subtraction(NULL, NULL)\n");
+        IntSortedSetADT local_result = sset_subtraction(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first == NULL
+            ;
+        bool set_second_is_good = set_second == NULL
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result == NULL;
+
+        printf("\tEXPECTED: set_first == NULL, set_second == NULL  with NULL\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {}, {} => {}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        
+        IntSortedSetADT set_second = mkSSet();
+        
+        printf("sset_subtraction({}, {})\n");
+        IntSortedSetADT local_result = sset_subtraction(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first == NULL 
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first == NULL 
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first == NULL
+            && local_result->last == NULL
+            ;
+
+        printf("\tEXPECTED: set_first == {}, set_second == {}  with {}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - NULL, {} => NULL
+    if(passed){
+        IntSortedSetADT set_first = NULL;
+        IntSortedSetADT set_second = mkSSet();
+        printf("sset_subtraction(NULL, {})\n");
+        IntSortedSetADT local_result = sset_subtraction(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first == NULL
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first == NULL 
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result == NULL;
+
+        printf("\tEXPECTED: set_first == NULL, set_second == {}  with NULL\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {}, NULL => NULL
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        IntSortedSetADT set_second = NULL;
+        printf("sset_subtraction({}, NULL)\n");
+        IntSortedSetADT local_result = sset_subtraction(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first == NULL 
+            ;
+        bool set_second_is_good = set_second == NULL
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result == NULL;
+
+        printf("\tEXPECTED: set_first == {}, set_second == NULL  with NULL\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {}, {1,2,3} => {}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        printf("sset_subtraction({}, {1,2,3})\n");
+        IntSortedSetADT local_result = sset_subtraction(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first == NULL 
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->last != NULL && set_second->last->elem == 3
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first == NULL
+            && local_result->last == NULL 
+            ;
+
+        printf("\tEXPECTED: set_first == {}, set_second == {1,2,3}  with {}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+
+    // - {1,2,3}, {} => {1,2,3}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        sset_add(set_first, 2);
+        sset_add(set_first, 3);
+        IntSortedSetADT set_second = mkSSet();
+        printf("sset_subtraction({1,2,3}, {})\n");
+        IntSortedSetADT local_result = sset_subtraction(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->first->next != NULL && set_first->first->next->elem == 2
+            && set_first->last != NULL && set_first->last->elem == 3
+            
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first == NULL 
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first != NULL && local_result->first->elem == 1
+            && local_result->first->next != NULL && local_result->first->next->elem == 2
+            && local_result->last != NULL && local_result->last->elem == 3
+            ;
+
+        printf("\tEXPECTED: set_first == {1,2,3}, set_second == {}  with {1,2,3}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+
+    // - {1}, {1,2,3} => {}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        printf("sset_subtraction({1}, {1,2,3})\n");
+        IntSortedSetADT local_result = sset_subtraction(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->last != NULL && set_first->last->elem == 1
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->last != NULL && set_second->last->elem == 3
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first == NULL
+            && local_result->last == NULL
+            ;
+
+        printf("\tEXPECTED: set_first == {1}, set_second == {1,2,3}  with {}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {1,2}, {1,2,3} => {}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        sset_add(set_first, 2);
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        printf("sset_subtraction({1,2}, {1,2,3})\n");
+        IntSortedSetADT local_result = sset_subtraction(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->last != NULL && set_first->last->elem == 2
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->last != NULL && set_second->last->elem == 3
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first == NULL
+            && local_result->last == NULL
+            ;
+
+        printf("\tEXPECTED: set_first == {1,2}, set_second == {1,2,3}  with {}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+
+    // - {1,2,3}, {1,2,3} => {}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        sset_add(set_first, 2);
+        sset_add(set_first, 3);
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        printf("sset_subtraction({1,2,3}, {1,2,3})\n");
+        IntSortedSetADT local_result = sset_subtraction(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->first->next != NULL && set_first->first->next->elem == 2
+            && set_first->last != NULL && set_first->last->elem == 3
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->last != NULL && set_second->last->elem == 3
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first == NULL
+            && local_result->last == NULL
+            ;
+
+        printf("\tEXPECTED: set_first == {1,2,3}, set_second == {1,2,3}  with {}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {1,2,3,4}, {1,2,3} => {4}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        sset_add(set_first, 2);
+        sset_add(set_first, 3);
+        sset_add(set_first, 4);
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        printf("sset_subtraction({1,2,3,4}, {1,2,3})\n");
+        IntSortedSetADT local_result = sset_subtraction(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->first->next != NULL && set_first->first->next->elem == 2
+            && set_first->first->next->next != NULL && set_first->first->next->next->elem == 3
+            && set_first->last != NULL && set_first->last->elem == 4
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->last != NULL && set_second->last->elem == 3
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first != NULL && local_result->first->elem == 4
+            && local_result->last != NULL && local_result->last->elem == 4
+            ;
+
+        printf("\tEXPECTED: set_first == {1,2,3,4}, set_second == {1,2,3}  with {4}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+    // - {1,2,3}, {1,2,3,4} => {}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        sset_add(set_first, 2);
+        sset_add(set_first, 3);
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 1);
+        sset_add(set_second, 2);
+        sset_add(set_second, 3);
+        sset_add(set_second, 4);
+        printf("sset_subtraction({1,2,3}, {1,2,3,4})\n");
+        IntSortedSetADT local_result = sset_subtraction(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->first->next != NULL && set_first->first->next->elem == 2
+            && set_first->last != NULL && set_first->last->elem == 3
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 1
+            && set_second->first->next != NULL && set_second->first->next->elem == 2
+            && set_second->first->next->next != NULL && set_second->first->next->next->elem == 3
+            && set_second->last != NULL && set_second->last->elem == 4
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first == NULL
+            && local_result->last == NULL
+            ;
+
+        printf("\tEXPECTED: set_first == {1,2,3}, set_second == {1,2,3,4}  with {}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+
+    // - {1,2}, {3,4} => {1,2}
+    if(passed){
+        IntSortedSetADT set_first = mkSSet();
+        sset_add(set_first, 1);
+        sset_add(set_first, 2);
+        IntSortedSetADT set_second = mkSSet();
+        sset_add(set_second, 3);
+        sset_add(set_second, 4);
+        printf("sset_subtraction({1,2}, {3,4})\n");
+        IntSortedSetADT local_result = sset_subtraction(set_first, set_second); 
+
+        char* set_stringhed_first = set_first != NULL ? toString(set_first) : "NULL";
+        char* set_stringhed_second = set_second != NULL ? toString(set_second) : "NULL";
+        char* set_stringhed_result = local_result != NULL ? toString(local_result) : "NULL";
+
+        bool set_first_is_good = set_first != NULL
+            && set_first->first != NULL && set_first->first->elem == 1
+            && set_first->last != NULL && set_first->last->elem == 2
+            ;
+        bool set_second_is_good = set_second != NULL
+            && set_second->first != NULL && set_second->first->elem == 3
+            && set_second->last != NULL && set_second->last->elem == 4
+            ;
+        
+        bool set_is_good = set_first_is_good && set_first_is_good;
+
+        bool result_is_good = local_result != NULL
+            && local_result->first != NULL && local_result->first->elem == 1
+            && local_result->last != NULL && local_result->last->elem == 2
+            ;
+
+        printf("\tEXPECTED: set_first == {1,2}, set_second == {3,4}  with {1,2}\n"); 
+        printf("\tSET RESULT: \n\t\tset_first:%s\n\t\tset_second:%s\n\t\tfunction result: %s\n", 
+            set_stringhed_first,
+            set_stringhed_second,
+            set_stringhed_result);
+        printf("\tRESULT:\n");
+        if(!result_is_good || !set_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: One of the sets are wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set_first != NULL){
+            dsSSet(&set_first);
+        }
+
+        if(set_second != NULL){
+            dsSSet(&set_second);
+        }
+    }
+
     return passed;
 }
 
 int check_sset_min(){
     int passed=1;
+
+    // casi da testare:
+    // - NULL, *int => false
+    if(passed){
+        IntSortedSetADT set = NULL;
+        printf("sset_min(NULL, *int)\n");
+        int local_param = -1;
+        bool local_result = sset_min(set, &local_param);
+
+        char* set_stringhed = set != NULL ? toString(set) : "NULL";
+        bool set_is_good = set == NULL;
+        bool result_is_good = local_result == false && local_param == -1;
+
+        printf("\tEXPECTED: set == NULL with FALSE, *int = -1\n"); 
+        printf("\tSET RESULT: \n\t\tset:%s\n\t\tfunction result: %d\n", set_stringhed, local_result);
+        printf("\tRESULT:\n");
+        if(!set_is_good || !result_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: The set is wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set != NULL){
+            dsSSet(&set);
+        }
+    }
+    // - {}, *int => false
+    if(passed){
+        IntSortedSetADT set = mkSSet();
+        printf("sset_min({}, *int)\n");
+        int local_param = -1;
+        bool local_result = sset_min(set, &local_param);
+
+        char* set_stringhed = set != NULL ? toString(set) : "NULL";
+        bool set_is_good = set != NULL &&
+            set->first == NULL &&
+            set->last == NULL
+            ;
+        bool result_is_good = local_result == false && local_param == -1;
+
+        printf("\tEXPECTED: set == {} with FALSE, *int = -1\n"); 
+        printf("\tSET RESULT: \n\t\tset:%s\n\t\tfunction result: %d\n", set_stringhed, local_result);
+        printf("\tRESULT:\n");
+        if(!set_is_good || !result_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: The set is wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set != NULL){
+            dsSSet(&set);
+        }
+    }
+
+    // - {1}, *int => true
+    if(passed){
+        IntSortedSetADT set = mkSSet();
+        sset_add(set, 1);
+        printf("sset_min({1}, *int)\n");
+        int local_param = -1;
+        bool local_result = sset_min(set, &local_param);
+
+        char* set_stringhed = set != NULL ? toString(set) : "NULL";
+        bool set_is_good = set != NULL &&
+            set->first != NULL && set->first->elem == 1 &&
+            set->last != NULL && set->last->elem == 1
+            ;
+        bool result_is_good = local_result == true && local_param == 1;
+
+        printf("\tEXPECTED: set == {1} with TRUE, *int = 1\n"); 
+        printf("\tSET RESULT: \n\t\tset:%s\n\t\tfunction result: %d\n", set_stringhed, local_result);
+        printf("\tRESULT:\n");
+        if(!set_is_good || !result_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: The set is wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set != NULL){
+            dsSSet(&set);
+        }
+    }
+
+    // - {1,2,3}, *int => true
+    if(passed){
+        IntSortedSetADT set = mkSSet();
+        sset_add(set,1);
+        sset_add(set,2);
+        sset_add(set,3);
+        printf("sset_min({1,2,3}, *int)\n");
+        int local_param = -1;
+        bool local_result = sset_min(set, &local_param);
+
+        char* set_stringhed = set != NULL ? toString(set) : "NULL";
+        bool set_is_good = set != NULL &&
+            set->first != NULL && set->first->elem == 1 &&
+            set->first->next != NULL && set->first->next->elem == 2 &&
+            set->last != NULL && set->last->elem == 3
+            ;
+        bool result_is_good = local_result == true && local_param == 1;
+
+        printf("\tEXPECTED: set == {1,2,3} with TRUE, *int = 1\n"); 
+        printf("\tSET RESULT: \n\t\tset:%s\n\t\tfunction result: %d\n", set_stringhed, local_result);
+        printf("\tRESULT:\n");
+        if(!set_is_good || !result_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: The set is wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set != NULL){
+            dsSSet(&set);
+        }
+    }
+
+    // - {-10,5,31}, *int => true
+    if(passed){
+        IntSortedSetADT set = mkSSet();
+        sset_add(set,-10);
+        sset_add(set,5);
+        sset_add(set,31);
+        printf("sset_min({-10,5,31}, *int)\n");
+        int local_param = -1;
+        bool local_result = sset_min(set, &local_param);
+
+        char* set_stringhed = set != NULL ? toString(set) : "NULL";
+        bool set_is_good = set != NULL &&
+            set->first != NULL && set->first->elem == -10 &&
+            set->first->next != NULL && set->first->next->elem == 5 &&
+            set->last != NULL && set->last->elem == 31
+            ;
+        bool result_is_good = local_result == true && local_param == -10;
+
+        printf("\tEXPECTED: set == {-10,5,31} with TRUE, *int = -10\n"); 
+        printf("\tSET RESULT: \n\t\tset:%s\n\t\tfunction result: %d\n", set_stringhed, local_result);
+        printf("\tRESULT:\n");
+        if(!set_is_good || !result_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: The set is wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set != NULL){
+            dsSSet(&set);
+        }
+    }
 
     return passed;
 }
@@ -2358,17 +5072,555 @@ int check_sset_min(){
 int check_sset_max(){
     int passed=1;
 
+    // casi da testare:
+    // - NULL, *int => false
+    if(passed){
+        IntSortedSetADT set = NULL;
+        printf("sset_max(NULL, *int)\n");
+        int local_param = -1;
+        bool local_result = sset_max(set, &local_param);
+
+        char* set_stringhed = set != NULL ? toString(set) : "NULL";
+        bool set_is_good = set == NULL;
+        bool result_is_good = local_result == false && local_param == -1;
+
+        printf("\tEXPECTED: set == NULL with FALSE, *int = -1\n"); 
+        printf("\tSET RESULT: \n\t\tset:%s\n\t\tfunction result: %d\n", set_stringhed, local_result);
+        printf("\tRESULT:\n");
+        if(!set_is_good || !result_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: The set is wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set != NULL){
+            dsSSet(&set);
+        }
+    }
+    // - {}, *int => false
+    if(passed){
+        IntSortedSetADT set = mkSSet();
+        printf("sset_max({}, *int)\n");
+        int local_param = -1;
+        bool local_result = sset_max(set, &local_param);
+
+        char* set_stringhed = set != NULL ? toString(set) : "NULL";
+        bool set_is_good = set != NULL &&
+            set->first == NULL &&
+            set->last == NULL
+            ;
+        bool result_is_good = local_result == false && local_param == -1;
+
+        printf("\tEXPECTED: set == {} with FALSE, *int = -1\n"); 
+        printf("\tSET RESULT: \n\t\tset:%s\n\t\tfunction result: %d\n", set_stringhed, local_result);
+        printf("\tRESULT:\n");
+        if(!set_is_good || !result_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: The set is wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set != NULL){
+            dsSSet(&set);
+        }
+    }
+
+    // - {1}, *int => true
+    if(passed){
+        IntSortedSetADT set = mkSSet();
+        sset_add(set, 1);
+        printf("sset_max({1}, *int)\n");
+        int local_param = -1;
+        bool local_result = sset_max(set, &local_param);
+
+        char* set_stringhed = set != NULL ? toString(set) : "NULL";
+        bool set_is_good = set != NULL &&
+            set->first != NULL && set->first->elem == 1 &&
+            set->last != NULL && set->last->elem == 1
+            ;
+        bool result_is_good = local_result == true && local_param == 1;
+
+        printf("\tEXPECTED: set == {1} with TRUE, *int = 1\n"); 
+        printf("\tSET RESULT: \n\t\tset:%s\n\t\tfunction result: %d\n", set_stringhed, local_result);
+        printf("\tRESULT:\n");
+        if(!set_is_good || !result_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: The set is wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set != NULL){
+            dsSSet(&set);
+        }
+    }
+
+    // - {1,2,3}, *int => true
+    if(passed){
+        IntSortedSetADT set = mkSSet();
+        sset_add(set,1);
+        sset_add(set,2);
+        sset_add(set,3);
+        printf("sset_max({1,2,3}, *int)\n");
+        int local_param = -1;
+        bool local_result = sset_max(set, &local_param);
+
+        char* set_stringhed = set != NULL ? toString(set) : "NULL";
+        bool set_is_good = set != NULL &&
+            set->first != NULL && set->first->elem == 1 &&
+            set->first->next != NULL && set->first->next->elem == 2 &&
+            set->last != NULL && set->last->elem == 3
+            ;
+        bool result_is_good = local_result == true && local_param == 3;
+
+        printf("\tEXPECTED: set == {1,2,3} with TRUE, *int = 3\n"); 
+        printf("\tSET RESULT: \n\t\tset:%s\n\t\tfunction result: %d\n", set_stringhed, local_result);
+        printf("\tRESULT:\n");
+        if(!set_is_good || !result_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: The set is wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set != NULL){
+            dsSSet(&set);
+        }
+    }
+
+    // - {-10,5,31}, *int => true
+    if(passed){
+        IntSortedSetADT set = mkSSet();
+        sset_add(set,-10);
+        sset_add(set,5);
+        sset_add(set,31);
+        printf("sset_max({-10,5,31}, *int)\n");
+        int local_param = -1;
+        bool local_result = sset_max(set, &local_param);
+
+        char* set_stringhed = set != NULL ? toString(set) : "NULL";
+        bool set_is_good = set != NULL &&
+            set->first != NULL && set->first->elem == -10 &&
+            set->first->next != NULL && set->first->next->elem == 5 &&
+            set->last != NULL && set->last->elem == 31
+            ;
+        bool result_is_good = local_result == true && local_param == 31;
+
+        printf("\tEXPECTED: set == {-10,5,31} with TRUE, *int = 31\n"); 
+        printf("\tSET RESULT: \n\t\tset:%s\n\t\tfunction result: %d\n", set_stringhed, local_result);
+        printf("\tRESULT:\n");
+        if(!set_is_good || !result_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: The set is wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set != NULL){
+            dsSSet(&set);
+        }
+    }
+
     return passed;
 }
 
 int check_sset_extractMin(){
     int passed=1;
 
+    // casi da testare:
+    // - NULL, *int => false
+    if(passed){
+        IntSortedSetADT set = NULL;
+        printf("sset_extractMin(NULL, *int)\n");
+        int local_param = -1;
+        bool local_result = sset_extractMin(set, &local_param);
+
+        char* set_stringhed = set != NULL ? toString(set) : "NULL";
+        bool set_is_good = set == NULL;
+        bool result_is_good = local_result == false && local_param == -1;
+
+        printf("\tEXPECTED: set == NULL with FALSE, *int = -1\n"); 
+        printf("\tSET RESULT: \n\t\tset:%s\n\t\tfunction result: %d\n", set_stringhed, local_result);
+        printf("\tRESULT:\n");
+        if(!set_is_good || !result_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: The set is wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set != NULL){
+            dsSSet(&set);
+        }
+    }
+    // - {}, *int => false
+    if(passed){
+        IntSortedSetADT set = mkSSet();
+        printf("sset_extractMin({}, *int)\n");
+        int local_param = -1;
+        bool local_result = sset_extractMin(set, &local_param);
+
+        char* set_stringhed = set != NULL ? toString(set) : "NULL";
+        bool set_is_good = set != NULL &&
+            set->first == NULL &&
+            set->last == NULL
+            ;
+        bool result_is_good = local_result == false && local_param == -1;
+
+        printf("\tEXPECTED: set == {} with FALSE, *int = -1\n"); 
+        printf("\tSET RESULT: \n\t\tset:%s\n\t\tfunction result: %d\n", set_stringhed, local_result);
+        printf("\tRESULT:\n");
+        if(!set_is_good || !result_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: The set is wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set != NULL){
+            dsSSet(&set);
+        }
+    }
+
+    // - {1}, *int => true
+    if(passed){
+        IntSortedSetADT set = mkSSet();
+        sset_add(set, 1);
+        printf("sset_extractMin({1}, *int)\n");
+        int local_param = -1;
+        bool local_result = sset_extractMin(set, &local_param);
+
+        char* set_stringhed = set != NULL ? toString(set) : "NULL";
+        bool set_is_good = set != NULL &&
+            set->first == NULL &&
+            set->last == NULL
+            ;
+        bool result_is_good = local_result == true && local_param == 1;
+
+        printf("\tEXPECTED: set == {} with TRUE, *int = 1\n"); 
+        printf("\tSET RESULT: \n\t\tset:%s\n\t\tfunction result: %d\n", set_stringhed, local_result);
+        printf("\tRESULT:\n");
+        if(!set_is_good || !result_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: The set is wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set != NULL){
+            dsSSet(&set);
+        }
+    }
+
+    // - {1,2,3}, *int => true
+    if(passed){
+        IntSortedSetADT set = mkSSet();
+        sset_add(set,1);
+        sset_add(set,2);
+        sset_add(set,3);
+        printf("sset_extractMin({1,2,3}, *int)\n");
+        int local_param = -1;
+        bool local_result = sset_extractMin(set, &local_param);
+
+        char* set_stringhed = set != NULL ? toString(set) : "NULL";
+        bool set_is_good = set != NULL &&
+            set->first != NULL && set->first->elem == 2 &&
+            set->last != NULL && set->last->elem == 3
+            ;
+        bool result_is_good = local_result == true && local_param == 1;
+
+        printf("\tEXPECTED: set == {2,3} with TRUE, *int = 1\n"); 
+        printf("\tSET RESULT: \n\t\tset:%s\n\t\tfunction result: %d\n", set_stringhed, local_result);
+        printf("\tRESULT:\n");
+        if(!set_is_good || !result_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: The set is wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set != NULL){
+            dsSSet(&set);
+        }
+    }
+
+    // - {-10,5,31}, *int => true
+    if(passed){
+        IntSortedSetADT set = mkSSet();
+        sset_add(set,-10);
+        sset_add(set,5);
+        sset_add(set,31);
+        printf("sset_extractMin({-10,5,31}, *int)\n");
+        int local_param = -1;
+        bool local_result = sset_extractMin(set, &local_param);
+
+        char* set_stringhed = set != NULL ? toString(set) : "NULL";
+        bool set_is_good = set != NULL &&
+            set->first != NULL && set->first->elem == 5 &&
+            set->last != NULL && set->last->elem == 31
+            ;
+        bool result_is_good = local_result == true && local_param == -10;
+
+        printf("\tEXPECTED: set == {5,31} with TRUE, *int = -10\n"); 
+        printf("\tSET RESULT: \n\t\tset:%s\n\t\tfunction result: %d\n", set_stringhed, local_result);
+        printf("\tRESULT:\n");
+        if(!set_is_good || !result_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: The set is wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set != NULL){
+            dsSSet(&set);
+        }
+    }
     return passed;
 }
 
 int check_sset_extractMax(){
     int passed=1;
+
+    // casi da testare:
+    // - NULL, *int => false
+    if(passed){
+        IntSortedSetADT set = NULL;
+        printf("sset_extractMax(NULL, *int)\n");
+        int local_param = -1;
+        bool local_result = sset_extractMax(set, &local_param);
+
+        char* set_stringhed = set != NULL ? toString(set) : "NULL";
+        bool set_is_good = set == NULL;
+        bool result_is_good = local_result == false && local_param == -1;
+
+        printf("\tEXPECTED: set == NULL with FALSE, *int = -1\n"); 
+        printf("\tSET RESULT: \n\t\tset:%s\n\t\tfunction result: %d\n", set_stringhed, local_result);
+        printf("\tRESULT:\n");
+        if(!set_is_good || !result_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: The set is wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set != NULL){
+            dsSSet(&set);
+        }
+    }
+    // - {}, *int => false
+    if(passed){
+        IntSortedSetADT set = mkSSet();
+        printf("sset_extractMax({}, *int)\n");
+        int local_param = -1;
+        bool local_result = sset_extractMax(set, &local_param);
+
+        char* set_stringhed = set != NULL ? toString(set) : "NULL";
+        bool set_is_good = set != NULL &&
+            set->first == NULL &&
+            set->last == NULL
+            ;
+        bool result_is_good = local_result == false && local_param == -1;
+
+        printf("\tEXPECTED: set == {} with FALSE, *int = -1\n"); 
+        printf("\tSET RESULT: \n\t\tset:%s\n\t\tfunction result: %d\n", set_stringhed, local_result);
+        printf("\tRESULT:\n");
+        if(!set_is_good || !result_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: The set is wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set != NULL){
+            dsSSet(&set);
+        }
+    }
+
+    // - {1}, *int => true
+    if(passed){
+        IntSortedSetADT set = mkSSet();
+        sset_add(set, 1);
+        printf("sset_extractMax({1}, *int)\n");
+        int local_param = -1;
+        bool local_result = sset_extractMax(set, &local_param);
+
+        char* set_stringhed = set != NULL ? toString(set) : "NULL";
+        bool set_is_good = set != NULL &&
+            set->first == NULL &&
+            set->last == NULL
+            ;
+        bool result_is_good = local_result == true && local_param == 1;
+
+        printf("\tEXPECTED: set == {} with TRUE, *int = 1\n"); 
+        printf("\tSET RESULT: \n\t\tset:%s\n\t\tfunction result: %d\n", set_stringhed, local_result);
+        printf("\tRESULT:\n");
+        if(!set_is_good || !result_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: The set is wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set != NULL){
+            dsSSet(&set);
+        }
+    }
+
+    // - {1,2,3}, *int => true
+    if(passed){
+        IntSortedSetADT set = mkSSet();
+        sset_add(set,1);
+        sset_add(set,2);
+        sset_add(set,3);
+        printf("sset_extractMax({1,2,3}, *int)\n");
+        int local_param = -1;
+        bool local_result = sset_extractMax(set, &local_param);
+
+        char* set_stringhed = set != NULL ? toString(set) : "NULL";
+        bool set_is_good = set != NULL &&
+            set->first != NULL && set->first->elem == 1 &&
+            set->last != NULL && set->last->elem == 2
+            ;
+        bool result_is_good = local_result == true && local_param == 3;
+
+        printf("\tEXPECTED: set == {1,2} with TRUE, *int = 3\n"); 
+        printf("\tSET RESULT: \n\t\tset:%s\n\t\tfunction result: %d\n", set_stringhed, local_result);
+        printf("\tRESULT:\n");
+        if(!set_is_good || !result_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: The set is wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set != NULL){
+            dsSSet(&set);
+        }
+    }
+
+    // - {-10,5,31}, *int => true
+    if(passed){
+        IntSortedSetADT set = mkSSet();
+        sset_add(set,-10);
+        sset_add(set,5);
+        sset_add(set,31);
+        printf("sset_extractMax({-10,5,31}, *int)\n");
+        int local_param = -1;
+        bool local_result = sset_extractMax(set, &local_param);
+
+        char* set_stringhed = set != NULL ? toString(set) : "NULL";
+        bool set_is_good = set != NULL &&
+            set->first != NULL && set->first->elem == -10 &&
+            set->last != NULL && set->last->elem == 5
+            ;
+        bool result_is_good = local_result == true && local_param == 31;
+
+        printf("\tEXPECTED: set == {-10,5} with TRUE, *int = 31\n"); 
+        printf("\tSET RESULT: \n\t\tset:%s\n\t\tfunction result: %d\n", set_stringhed, local_result);
+        printf("\tRESULT:\n");
+        if(!set_is_good || !result_is_good){
+            printf("\t\tFAILED:\n");
+            if (!result_is_good){
+                printf("\t\t\tHINT: The result is wrong\n");
+            }
+            if(!set_is_good){
+                printf("\t\t\tHINT: The set is wrong\n");
+            }
+            passed = 0;
+        } else {
+            printf("\t\tOK.\n");
+        }
+
+        if(set != NULL){
+            dsSSet(&set);
+        }
+    }
 
     return passed;
 }
@@ -2479,8 +5731,8 @@ int main(int argc, char *argv[]) {
   }
 
   {
-    //printf("TEST sset_extractMax\n");    
-    //check_sset_extractMax();
-    //printf("\n");
+    printf("TEST sset_extractMax\n");    
+    check_sset_extractMax();
+    printf("\n");
   }
 }

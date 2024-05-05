@@ -130,7 +130,6 @@ _Bool sset_remove(const IntSortedSetADT set, const int elem) {
 
     // rimozione
     ListNodePtr prev = set->first;
-    set->size--;
 
     if(prev->elem == elem){ // rimozione all'inizio
         if(set->size == 1){ // all'inizio con solo 1 elemento
@@ -140,6 +139,7 @@ _Bool sset_remove(const IntSortedSetADT set, const int elem) {
             set->first = set->first->next;
         }
         free(prev);
+        set->size--;
         return true;
     }
 
@@ -152,12 +152,14 @@ _Bool sset_remove(const IntSortedSetADT set, const int elem) {
         prev->next = NULL;
         free(node);
         set->last = prev;
+        set->size--;
         return true;
     }
 
     // rimozione in mezzo
     prev->next = node->next;
     free(node);
+    set->size--;
 
     return true;
 }
@@ -280,33 +282,268 @@ _Bool sset_subseteq(const IntSortedSetADT s1, const IntSortedSetADT s2) {
 }
 
 _Bool sset_subset(const IntSortedSetADT s1, const IntSortedSetADT s2) {
-    return false;
+    if(s1 == NULL && s2 == NULL){
+        return false;
+    }
+
+    if(s1 == NULL || s2 == NULL){
+        return false;
+    }
+
+    if(isEmptySSet(s1) && isEmptySSet(s2)){
+        return false;
+    }
+
+    if(isEmptySSet(s2)){
+        return false;
+    }
+
+    if(isEmptySSet(s1)){
+        return true;
+    }
+
+    if(sset_equals(s1,s2)){
+        return false;
+    }
+
+    return sset_subseteq(s1,s2);
 }
 
 IntSortedSetADT sset_union(const IntSortedSetADT s1, const IntSortedSetADT s2) {
-    return NULL; 
+    if(s1 == NULL || s2 == NULL){
+        return NULL;
+    }
+
+    IntSortedSetADT new_set = mkSSet();
+    if(new_set == NULL){
+        return NULL;
+    }
+
+    if(isEmptySSet(s1) && isEmptySSet(s2)){ // vuoto
+        return new_set;
+    }
+
+    if(isEmptySSet(s1) || isEmptySSet(s2)){ // solo 1 e' vuoto
+        IntSortedSetADT bigger_set = isEmptySSet(s1) ?
+        s2
+        :
+        s1
+        ;
+
+        for(ListNodePtr node = bigger_set->first; node != NULL; node = node->next){
+            sset_add(new_set, node->elem);
+        }
+
+        return new_set;
+    }
+
+    int bigger_size = sset_size(s1) > sset_size(s2) ? sset_size(s1) : sset_size(s2);
+
+    ListNodePtr first_node = s1->first;
+    ListNodePtr second_node = s2->first;
+
+    for(int i=0; i<bigger_size; i++){
+        if (first_node != NULL){
+            sset_add(new_set, first_node->elem);
+
+            first_node = first_node->next;
+        }
+        if (second_node != NULL){
+            sset_add(new_set, second_node->elem);
+            second_node = second_node->next;
+        }
+    }
+
+    return new_set; 
 }
 
 IntSortedSetADT sset_intersection(const IntSortedSetADT s1, const IntSortedSetADT s2) {
-    return NULL;
+    if (s1 == NULL || s2 == NULL){
+        return NULL;
+    }
+
+    IntSortedSetADT new_set = mkSSet();
+
+    if (isEmptySSet(s1) || isEmptySSet(s2)){
+        return new_set;
+    }
+
+    int bigger_size = sset_size(s1) > sset_size(s2) ? sset_size(s1) : sset_size(s2);
+
+    ListNodePtr first_node = s1->first;
+    ListNodePtr second_node = s2->first;
+
+    for(int i=0; i<bigger_size; i++){
+        if(first_node != NULL && sset_member(s2, first_node->elem)){
+            sset_add(new_set, first_node->elem);
+            first_node = first_node->next;
+        }
+
+        if(second_node != NULL && sset_member(s1, second_node->elem)){
+            sset_add(new_set, second_node->elem);
+            second_node = second_node->next;
+        }
+    }
+
+    return new_set;
 }
 
 IntSortedSetADT sset_subtraction(const IntSortedSetADT s1, const IntSortedSetADT s2) {
-    return NULL;   
+    if (s1 == NULL || s2 == NULL){
+        return NULL;
+    }
+
+    IntSortedSetADT new_set = mkSSet();
+
+    if (isEmptySSet(s1)){
+        return new_set;
+    }
+
+    int set_size = sset_size(s1);
+
+    ListNodePtr first_node = s1->first;
+
+    for(ListNodePtr first_node = s1->first; first_node != NULL ; first_node = first_node->next){
+        if(!sset_member(s2, first_node->elem)){
+            sset_add(new_set, first_node->elem);
+        }
+    }
+
+    return new_set;   
 }
 
-_Bool sset_min(const IntSortedSetADT ss, int *ptr) {
-    return false;
+/*
+ * Cerca l'elemento massimo nella linked list e lo restituisce
+ * insieme al suo predecessore.
+ * @param first - Il primo nodo della lista
+ * @param *predecessor - Il puntatore al predecessore
+ * @returns Il nodo con il valore massimo
+*/
+ListNodePtr internal_get_max(ListNodePtr first, ListNodePtr *predecessor){
+    if (first == NULL){
+        *predecessor = NULL;
+        return NULL;
+    }
+
+    ListNodePtr max_node = first;
+    *predecessor = first;
+
+    for(ListNodePtr node = first->next; node != NULL; node = node->next){
+        if (max_node->elem < node->elem ){
+            max_node = node;
+        }
+        *predecessor = (*predecessor)->next;
+    }
+
+    return max_node;
 }
 
-_Bool sset_max(const IntSortedSetADT ss, int *ptr) {
-    return false;
+/*
+ * Cerca l'elemento minimo nella linked list e lo restituisce
+ * insieme al suo predecessore.
+ * @param first - Il primo nodo della lista
+ * @param *predecessor - Il puntatore al predecessore
+ * @returns Il nodo con il valore minimo
+*/
+ListNodePtr internal_get_min(ListNodePtr first, ListNodePtr *predecessor){
+    if (first == NULL){
+        *predecessor = NULL;
+        return NULL;
+    }
+
+    ListNodePtr min_node = first;
+    *predecessor = first;
+
+    for(ListNodePtr node = first->next; node != NULL; node = node->next){
+        if (node->elem < min_node->elem ){
+            min_node = node;
+        }
+        *predecessor = (*predecessor)->next;
+    }
+
+    return min_node;
 }
 
-_Bool sset_extractMin(IntSortedSetADT ss, int *ptr) {
-    return false;    
+_Bool sset_min(const IntSortedSetADT set, int *min_elem) {
+    if (set == NULL){
+        return false;
+    }
+
+    if (isEmptySSet(set)){
+        return false;
+    }
+
+    if (sset_size(set) == 1){
+        *min_elem = set->first->elem;
+        return true;
+    }
+
+    ListNodePtr predecessor = NULL;
+    ListNodePtr min_node = internal_get_min(set->first, &predecessor);
+    *min_elem = min_node->elem;
+    return true;
 }
 
-_Bool sset_extractMax(IntSortedSetADT ss, int *ptr) {
-    return false;       
+_Bool sset_max(const IntSortedSetADT set, int *max_elem) {
+    if (set == NULL){
+        return false;
+    }
+
+    if (isEmptySSet(set)){
+        return false;
+    }
+
+    if (sset_size(set) == 1){
+        *max_elem = set->first->elem;
+        return true;
+    }
+
+    ListNodePtr predecessor = NULL;
+    ListNodePtr max_node = internal_get_max(set->first, &predecessor);
+    *max_elem = max_node->elem;
+    return true;
+}
+
+_Bool sset_extractMin(IntSortedSetADT set, int *min_elem) {
+    if (set == NULL){
+        return false;
+    }
+
+    if (isEmptySSet(set)){
+        return false;
+    }
+
+    if (sset_size(set) == 1){
+        *min_elem = set->first->elem;
+        sset_remove(set, *min_elem);
+        return true;
+    }
+
+    ListNodePtr predecessor = NULL;
+    ListNodePtr min_node = internal_get_min(set->first, &predecessor);
+    *min_elem = min_node->elem;
+    sset_remove(set, *min_elem);
+    return true;    
+}
+
+_Bool sset_extractMax(IntSortedSetADT set, int *max_elem) {
+    if (set == NULL){
+        return false;
+    }
+
+    if (isEmptySSet(set)){
+        return false;
+    }
+
+    if (sset_size(set) == 1){
+        *max_elem = set->first->elem;
+        sset_remove(set, *max_elem);
+        return true;
+    }
+
+    ListNodePtr predecessor = NULL;
+    ListNodePtr max_node = internal_get_max(set->first, &predecessor);
+    *max_elem = max_node->elem;
+    sset_remove(set, *max_elem);
+    return true;
 }
