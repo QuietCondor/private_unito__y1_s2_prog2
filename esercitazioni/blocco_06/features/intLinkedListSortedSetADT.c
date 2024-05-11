@@ -72,7 +72,7 @@ ListNodePtr add_node_recursive(ListNodePtr first, ListNodePtr node_to_add, ListN
     }
 
     if (first->next == NULL){ // Fine raggiunta. Il nodo deve stare alla fine
-        node_to_add->next == NULL;
+        node_to_add->next = NULL;
         first->next = node_to_add;
         *new_end = node_to_add;
         return first;
@@ -183,7 +183,7 @@ _Bool sset_member(const IntSortedSetADT set, const int elem) {
 
 _Bool isEmptySSet(const IntSortedSetADT set) {
     if(set == NULL){
-        return true;
+        return false;
     }
 
     return sset_size(set) == 0;
@@ -202,7 +202,8 @@ _Bool sset_extract(IntSortedSetADT set, int *ptr) {
         return false;
     }
 
-    *ptr = set->first->elem;
+    *ptr = set->last->elem;
+    sset_remove(set, *ptr);
     set->size--;
 
     return true;
@@ -399,11 +400,10 @@ IntSortedSetADT sset_subtraction(const IntSortedSetADT s1, const IntSortedSetADT
         return new_set;
     }
 
-    int set_size = sset_size(s1);
 
     ListNodePtr first_node = s1->first;
 
-    for(ListNodePtr first_node = s1->first; first_node != NULL ; first_node = first_node->next){
+    for(; first_node != NULL ; first_node = first_node->next){
         if(!sset_member(s2, first_node->elem)){
             sset_add(new_set, first_node->elem);
         }
