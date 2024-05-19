@@ -218,6 +218,13 @@ int main(int argc, char *argv[]) {
     set = sset_intersection(s1,s2);
     printf("\nintersection s1 and s2\n");
     stampaSet(set,&stampaint);
+
+    int** arr1 = (int**)sset_toArray(set);
+    printf("\nAs array:");
+    for (int i=0; i<sset_size(set); ++i) printf(" %d", *arr1[i]);
+    printf("\n");
+    free(arr1);
+
     dsSSet(&set);
 
     set = sset_union(s1,s2);
