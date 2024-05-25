@@ -3,8 +3,10 @@
 #include <stdbool.h>
 
 #include "sortedSetADT.h"
-#define INTERNAL_TRUE -1
+#define INTERNAL_TRUE 1
 #define INTERNAL_FALSE 0
+#define INTERNAL_EMPTY_SET -1
+#define INTERNAL_NULL_SET -1
 
 typedef struct listNode ListNode, *ListNodePtr;
 
@@ -96,7 +98,7 @@ ListNodePtr add_node_recursive(int (*compare_function)(void*, void*), ListNodePt
         return node_to_add;
     }
 
-    if ((*compare_function)(node_to_add->elem, first->elem) == INTERNAL_TRUE){ // Il nodo deve stare prima della lista
+    if ((*compare_function)(node_to_add->elem, first->elem) == -1){ // Il nodo deve stare prima della lista
         node_to_add->next = first;
         *new_end = NULL;
         return node_to_add;
@@ -109,7 +111,7 @@ ListNodePtr add_node_recursive(int (*compare_function)(void*, void*), ListNodePt
         return first;
     }
 
-    if ((*compare_function)(node_to_add->elem, first->next->elem) == INTERNAL_TRUE ){ // Il nodo da inserire si trova in mezzo
+    if ((*compare_function)(node_to_add->elem, first->next->elem) == -1 ){ // Il nodo da inserire si trova in mezzo
         node_to_add->next = first->next;
         first->next = node_to_add;
         return first;
@@ -153,18 +155,18 @@ _Bool sset_remove(const SortedSetADTptr set, void* elem) {
         return false;
     }
 
-    if(isEmptySSet(set)){
+    if(isEmptySSet(set) == INTERNAL_TRUE){
         return false;
     }
 
-    if(!sset_member(set, elem)){
+    if(sset_member(set, elem) != INTERNAL_TRUE){
         return false;
     }
 
     // rimozione
     ListNodePtr prev = set->first;
 
-    if(prev->elem == elem){ // rimozione all'inizio
+    if((*(set->compare))(prev->elem, elem) == 0){ // rimozione all'inizio
         if(set->size == 1){ // all'inizio con solo 1 elemento
             set->first = NULL;
             set->last = NULL;
@@ -177,7 +179,7 @@ _Bool sset_remove(const SortedSetADTptr set, void* elem) {
     }
 
     ListNodePtr node = set->first->next;
-    for(; node != NULL && node->elem != elem; node = node->next){   
+    for(; node != NULL && (*(set->compare))(node->elem, elem) != 0; node = node->next){   
         prev = prev->next;
     }
 
@@ -200,11 +202,11 @@ _Bool sset_remove(const SortedSetADTptr set, void* elem) {
 // controlla se un elemento appartiene all'insieme
 int sset_member(const SortedSetADT* set, void* elem) {
     if(set == NULL){
-        return INTERNAL_FALSE;
+        return INTERNAL_NULL_SET;
     }
 
-    if(isEmptySSet(set)){
-        return INTERNAL_FALSE;
+    if(isEmptySSet(set) == INTERNAL_TRUE){
+        return INTERNAL_EMPTY_SET;
     }
 
     // ricerca dell'elemento
@@ -218,7 +220,7 @@ int sset_member(const SortedSetADT* set, void* elem) {
 // controlla se l'insieme e' vuoto    
 int isEmptySSet(const SortedSetADT* set) {
     if(set == NULL){
-        return INTERNAL_FALSE;
+        return INTERNAL_NULL_SET;
     }
 
     return sset_size(set) == 0 ? INTERNAL_TRUE : INTERNAL_FALSE;
@@ -227,7 +229,7 @@ int isEmptySSet(const SortedSetADT* set) {
 // restituisce il numero di elementi presenti nell'insieme
 int sset_size(const SortedSetADT* set) {
     if (set == NULL){
-        return INTERNAL_FALSE;
+        return INTERNAL_NULL_SET;
     }
 
     return set->size;
@@ -251,10 +253,10 @@ int sset_equals(const SortedSetADT* s1, const SortedSetADT* s2) {
     }
     
     if(s1 == NULL || s2 == NULL){
-        return INTERNAL_FALSE;
+        return INTERNAL_NULL_SET;
     }
 
-    if (isEmptySSet(s1) && isEmptySSet(s2)){
+    if (isEmptySSet(s1) == INTERNAL_TRUE && isEmptySSet(s2) == INTERNAL_TRUE){
         return INTERNAL_TRUE;
     }
 
@@ -289,14 +291,14 @@ int sset_subseteq(const SortedSetADT* s1, const SortedSetADT* s2) {
         return INTERNAL_TRUE;
     }
     if (s1 == NULL || s2 == NULL){
-        return INTERNAL_FALSE;
+        return INTERNAL_NULL_SET;
     }
 
-    if (isEmptySSet(s1) && isEmptySSet(s2)){
+    if (isEmptySSet(s1) == INTERNAL_TRUE && isEmptySSet(s2) == INTERNAL_TRUE){
         return INTERNAL_TRUE;
     }
 
-    if(isEmptySSet(s1)){
+    if(isEmptySSet(s1) == INTERNAL_TRUE){
         return INTERNAL_TRUE;
     }
 
@@ -334,18 +336,18 @@ int sset_subset(const SortedSetADT* s1, const SortedSetADT* s2) {
     }
 
     if(s1 == NULL || s2 == NULL){
+        return INTERNAL_NULL_SET;
+    }
+
+    if(isEmptySSet(s1) == INTERNAL_TRUE && isEmptySSet(s2) == INTERNAL_TRUE){
         return INTERNAL_FALSE;
     }
 
-    if(isEmptySSet(s1) && isEmptySSet(s2)){
+    if(isEmptySSet(s2) == INTERNAL_TRUE){
         return INTERNAL_FALSE;
     }
 
-    if(isEmptySSet(s2)){
-        return INTERNAL_FALSE;
-    }
-
-    if(isEmptySSet(s1)){
+    if(isEmptySSet(s1) == INTERNAL_TRUE){
         return INTERNAL_TRUE;
     }
 
@@ -364,7 +366,7 @@ SortedSetADTptr sset_subtraction(const SortedSetADT* s1, const SortedSetADT* s2)
 
     SortedSetADTptr new_set = mkSSet(s1->compare);
 
-    if (isEmptySSet(s1)){
+    if (isEmptySSet(s1) == INTERNAL_TRUE){
         return new_set;
     }
 
@@ -372,7 +374,7 @@ SortedSetADTptr sset_subtraction(const SortedSetADT* s1, const SortedSetADT* s2)
     ListNodePtr first_node = s1->first;
 
     for(; first_node != NULL ; first_node = first_node->next){
-        if(!sset_member(s2, first_node->elem)){
+        if(sset_member(s2, first_node->elem) != INTERNAL_TRUE){
             sset_add(new_set, first_node->elem);
         }
     }
@@ -392,11 +394,11 @@ SortedSetADTptr sset_union(const SortedSetADT* s1, const SortedSetADT* s2) {
         return NULL;
     }
 
-    if(isEmptySSet(s1) && isEmptySSet(s2)){ // vuoto
+    if(isEmptySSet(s1) == INTERNAL_TRUE && isEmptySSet(s2)  == INTERNAL_TRUE){ // vuoto
         return new_set;
     }
 
-    if(isEmptySSet(s1) || isEmptySSet(s2)){ // solo 1 e' vuoto
+    if(isEmptySSet(s1) == INTERNAL_TRUE || isEmptySSet(s2) == INTERNAL_TRUE){ // solo 1 e' vuoto
 
         ListNodePtr first_node = isEmptySSet(s1) == INTERNAL_TRUE ?
         s2->first
@@ -440,7 +442,7 @@ SortedSetADTptr sset_intersection(const SortedSetADT* s1, const SortedSetADT* s2
 
     SortedSetADTptr new_set = mkSSet(s1->compare);
 
-    if (isEmptySSet(s1) || isEmptySSet(s2)){
+    if (isEmptySSet(s1) == INTERNAL_TRUE || isEmptySSet(s2) == INTERNAL_TRUE){
         return new_set;
     }
 
@@ -450,7 +452,7 @@ SortedSetADTptr sset_intersection(const SortedSetADT* s1, const SortedSetADT* s2
     ListNodePtr second_node = s2->first;
 
     for(int i=0; i<bigger_size; i++){
-        if(first_node != NULL && sset_member(s2, first_node->elem)){
+        if(first_node != NULL && sset_member(s2, first_node->elem) == INTERNAL_TRUE){
             sset_add(new_set, first_node->elem);
         }
 
@@ -458,7 +460,7 @@ SortedSetADTptr sset_intersection(const SortedSetADT* s1, const SortedSetADT* s2
             first_node = first_node->next;
         }
 
-        if(second_node != NULL && sset_member(s1, second_node->elem)){
+        if(second_node != NULL && sset_member(s1, second_node->elem) == INTERNAL_TRUE){
             sset_add(new_set, second_node->elem);
         }
 
@@ -503,7 +505,7 @@ _Bool sset_min(const SortedSetADT* set, void**min_elem) {
         return false;
     }
 
-    if (isEmptySSet(set)){
+    if (isEmptySSet(set) == INTERNAL_TRUE){
         return false;
     }
 
@@ -551,7 +553,7 @@ _Bool sset_max(const SortedSetADT* set, void**max_elem) {
         return false;
     }
 
-    if (isEmptySSet(set)){
+    if (isEmptySSet(set) == INTERNAL_TRUE){
         return false;
     }
 
@@ -572,7 +574,7 @@ _Bool sset_extractMin(SortedSetADTptr set, void**min_elem) {
         return false;
     }
 
-    if (isEmptySSet(set)){
+    if (isEmptySSet(set) == INTERNAL_TRUE){
         return false;
     }
 
@@ -595,7 +597,7 @@ _Bool sset_extractMax(SortedSetADTptr set, void**max_elem) {
         return false;
     }
 
-    if (isEmptySSet(set)){
+    if (isEmptySSet(set) == INTERNAL_TRUE){
         return false;
     }
 
