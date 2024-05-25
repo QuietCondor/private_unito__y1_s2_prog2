@@ -6,6 +6,8 @@
 
 #define INT_TRUE 1
 #define INT_FALSE 0
+#define INT_NULL_SET -1
+#define INT_EMPTY_SET -1
 
 typedef struct treeNode TreeNode, *TreeNodePtr;
 
@@ -128,26 +130,80 @@ _Bool sset_add(SortedSetADTptr sorted_set, void* elem) {
     return true;
 }  
 
-void sset_extractMin_rec(TreeNodePtr* cur, void**ptr, int (*compare)(void*, void*));
-void sset_extractMax_rec(TreeNodePtr* cur, void**ptr, int (*compare)(void*, void*));
+void sset_extractMin_rec(TreeNodePtr* cur, void**ptr, int (*compare)(void*, void*)){
+    if(cur == NULL || *cur == NULL){
+        return;
+    }
+
+    if((*cur)->left == NULL){
+        *ptr = (*cur)->elem;
+        free((*cur));
+        *cur = NULL;
+        return;
+    }
+
+    if((*cur)->left->left == NULL){ // raggiunto la fine
+        *ptr = (*cur)->left->elem;
+        free((*cur)->left);
+        (*cur)->left = NULL;
+        return;
+    }
+
+    sset_extractMin_rec(&((*cur)->left), ptr, (*compare));
+}
+void sset_extractMax_rec(TreeNodePtr* cur, void**ptr, int (*compare)(void*, void*)){
+    if(cur == NULL || *cur == NULL){
+        return;
+    }
+
+    if((*cur)->right == NULL){
+        *ptr = (*cur)->elem;
+        free((*cur));
+        *cur = NULL;
+        return;
+    }
+
+    if((*cur)->right->right == NULL){ // raggiunto la fine
+        *ptr = (*cur)->right->elem;
+        free((*cur)->right);
+        (*cur)->right = NULL;
+        return;
+    }
+
+    sset_extractMin_rec(&((*cur)->right), ptr, (*compare));
+}
 
 // funzione ausiliaria che toglie un elemento da un sottoalbero
 _Bool sset_remove_rec(TreeNodePtr* cur, void* elem, int (*compare)(void*, void*)) {
-    //if (*cur == NULL) return false;
-    //int r = compare(elem, (*cur)->elem);
-    //if (r < 0) return sset_remove_rec(&((*cur)->left), elem, compare);
-    //if (r > 0) return sset_remove_rec(&((*cur)->right), elem, compare);
-    //void* ptr;
-    //if ((*cur)->left == NULL) {
-    //    sset_extractMin_rec(cur, &ptr, compare);
-    //} else if ((*cur)->right == NULL) {
-    //    sset_extractMax_rec(cur, &ptr, compare);
-    //} else {
-    //    sset_extractMax_rec(&((*cur)->left), &ptr, compare);
-    //    (*cur)->elem = ptr;
-    //}
-    return true;
+    // controllo null pointieer
+    if (*cur == NULL){
+        return false;
+    }
+    int compare_result = compare(elem, (*cur)->elem);
+    if (compare_result < 0) {
+        return sset_remove_rec(&((*cur)->left), elem, compare);
+    } else if (compare_result > 0) {
+        return sset_remove_rec(&((*cur)->right), elem, compare);
+    } else {
+        // Nodo trovato
+        if ((*cur)->left == NULL) {
+            TreeNodePtr temp = *cur;
+            *cur = (*cur)->right;
+            free(temp);
+        } else if ((*cur)->right == NULL) {
+            TreeNodePtr temp = *cur;
+            *cur = (*cur)->left;
+            free(temp);
+        } else {
+            // Nodo con due figli
+            void* ptr;
+            sset_extractMax_rec(&((*cur)->left), &ptr, compare); // Prendi il massimo nel sottoalbero sinistro
+            (*cur)->elem = ptr;
+        }
+        return true;
+    }
 }
+
 
 /*
  * Cerca un dato nell'albero usando una funzione custom di compare
@@ -177,41 +233,25 @@ TreeNodePtr internal_search_in_tree_recursive(TreeNodePtr node, void* data, int 
 
 // toglie un elemento all'insieme
 _Bool sset_remove(SortedSetADTptr sorted_set, void* elem) {
-    if (sorted_set == NULL) { // insieme nullo
+    if(sorted_set == NULL){
         return false;
     }
 
-    TreeNodePtr parent_node = NULL;
-    TreeNodePtr found_node = internal_search_in_tree_recursive(sorted_set->root, elem, sorted_set->compare, &parent_node);
-    if(found_node == NULL) {
-        return false;
+    if (sset_remove_rec(&(sorted_set->root), elem, sorted_set->compare)) {
+        sorted_set->size--;
+        return true;
     }
-
-    int count_deleted = 0;
-    if (parent_node != NULL){ // aggiusto nodi figli
-        int compare_result = (*(sorted_set->compare))(parent_node->elem, found_node->elem);
-        if(compare_result < 0 ){ // parent_node->elem < found_node->elem
-            parent_node->right = NULL;
-        }
-
-        if(compare_result > 0 ){ // parent_node->elem < found_node->elem
-            parent_node->left = NULL;
-        }
-        internal_tree_delete_recursive(&found_node, &count_deleted);
-        sorted_set->size = sorted_set->size - count_deleted;
-    } else { // rimosso root
-        sorted_set->root = NULL;
-        sorted_set->size = 0;
-        internal_tree_delete_recursive(&found_node, &count_deleted);
-    }
-
-    return true;
+    return false;
 }
 
 // controlla se un elemento appartiene all'insieme
 int sset_member(const SortedSetADT* sorted_set, void* elem) {
-    if(sorted_set == NULL || isEmptySSet(sorted_set)){
-        return INT_FALSE;
+    if(sorted_set == NULL){
+        return INT_NULL_SET;
+    }
+
+    if(isEmptySSet(sorted_set) == INT_TRUE){
+        return INT_EMPTY_SET;
     }
 
     return sset_search(sorted_set, elem) != NULL ? INT_TRUE : INT_FALSE;
@@ -231,6 +271,10 @@ void* sset_search(const SortedSetADT* sorted_set, void* elem) {
 
 // controlla se l'insieme e' vuoto
 int isEmptySSet(const SortedSetADT* sorted_set) {
+    if(sorted_set == NULL){
+        return INT_NULL_SET;
+    }
+
     int size = sset_size(sorted_set);
     return size <= 0 ? INT_TRUE : INT_FALSE;
 } 
@@ -273,7 +317,7 @@ _Bool sset_extract(SortedSetADTptr sorted_set, void**ptr) { // toglie e restitui
         return false;
     }
 
-    if(isEmptySSet(sorted_set)){
+    if(isEmptySSet(sorted_set) == INT_TRUE){
         return false;
     }
 
@@ -291,14 +335,14 @@ int sset_equals(const SortedSetADT* s1, const SortedSetADT* s2) {
     }
 
     if(s1 == NULL || s2 == NULL){
-        return INT_FALSE;
+        return INT_NULL_SET;
     }
 
-    if(isEmptySSet(s1) && isEmptySSet(s2)){
+    if(isEmptySSet(s1) == INT_TRUE && isEmptySSet(s2) == INT_TRUE){
         return INT_TRUE;
     }
 
-    if(isEmptySSet(s1) || isEmptySSet(s2)){
+    if(isEmptySSet(s1) == INT_TRUE || isEmptySSet(s2) == INT_TRUE){
         return INT_FALSE;
     }
 
@@ -334,11 +378,15 @@ int sset_subseteq(const SortedSetADT* s1, const SortedSetADT* s2) {
     }
 
     if(s1 == NULL || s2 == NULL){
-        return INT_FALSE;
+        return INT_NULL_SET;
     }
 
-    if(isEmptySSet(s1) || isEmptySSet(s2)){
+    if(isEmptySSet(s1) == INT_TRUE){
         return INT_TRUE;
+    }
+
+    if(isEmptySSet(s2) == INT_TRUE) {
+        return INT_FALSE;
     }
 
     bool is_subset = internal_tree_subset_check_recursive(s1->root, s2);
@@ -353,10 +401,14 @@ int sset_subset(const SortedSetADT* s1, const SortedSetADT* s2) {
     }
 
     if(s1 == NULL || s2 == NULL){
-        return INT_FALSE;
+        return INT_NULL_SET;
     }
 
-    if(isEmptySSet(s1) || isEmptySSet(s2)){
+    if (isEmptySSet(s1) == INT_TRUE){
+        return INT_TRUE;
+    }
+
+    if(isEmptySSet(s2) == INT_TRUE){
         return INT_FALSE;
     }
 
@@ -373,7 +425,7 @@ void internal_subtraction_set_recursive(SortedSetADTptr target_set, const Sorted
 
     int exists_result = sset_member(second_set, first_node->elem);
 
-    if(exists_result == INT_FALSE){
+    if(exists_result != INT_TRUE){
         sset_add(target_set, first_node->elem);
     }
 
@@ -392,13 +444,13 @@ SortedSetADTptr sset_subtraction(const SortedSetADT* s1, const SortedSetADT* s2)
         return NULL;
     }
 
-    if(!isEmptySSet(s1) && isEmptySSet(s2)){
+    if(isEmptySSet(s1) != INT_TRUE && isEmptySSet(s2) == INT_TRUE){
         SortedSetADTptr new_set = sset_union(s1, s2);
         return new_set;
     }
 
     SortedSetADTptr new_set = mkSSet(s1->compare);
-    if(isEmptySSet(s1)){
+    if(isEmptySSet(s1) == INT_TRUE){
         return new_set;
     }
 
@@ -454,6 +506,17 @@ SortedSetADTptr sset_union(const SortedSetADT* s1, const SortedSetADT* s2) {
     }
 
     SortedSetADTptr new_set = mkSSet(s1->compare);
+
+    if(isEmptySSet(s1) == INT_TRUE){
+        internal_union_set_recursive(new_set, s2->root);
+        return new_set;
+    }
+
+    if(isEmptySSet(s2) == INT_TRUE){
+        internal_union_set_recursive(new_set, s1->root);
+        return new_set;
+    }
+
     internal_union_set_recursive(new_set, s1->root);
     internal_union_set_recursive(new_set, s2->root);
 
@@ -467,7 +530,7 @@ SortedSetADTptr sset_intersection(const SortedSetADT* s1, const SortedSetADT* s2
     }
 
     SortedSetADTptr new_set = mkSSet(s1->compare);
-    if(isEmptySSet(s1) || isEmptySSet(s2)){
+    if(isEmptySSet(s1) == INT_TRUE || isEmptySSet(s2) == INT_TRUE){
         return new_set;
     }
 
@@ -512,7 +575,7 @@ _Bool sset_max(const SortedSetADT* sorted_set, void**ptr) {
 
 // toglie e restituisce il primo elemento 
 _Bool sset_extractMin(SortedSetADTptr sorted_set, void**ptr) {
-    if(sorted_set == NULL || isEmptySSet(sorted_set)){
+    if(sorted_set == NULL || isEmptySSet(sorted_set) == INT_TRUE){
         return false;
     }
 
@@ -524,7 +587,7 @@ _Bool sset_extractMin(SortedSetADTptr sorted_set, void**ptr) {
 
 // toglie e restituisce l'ultimo elemento (0 se lista vuota, -1 se errore, 1 se restituisce elemento)
 _Bool sset_extractMax(SortedSetADTptr sorted_set, void**ptr) {
-    if(sorted_set == NULL || isEmptySSet(sorted_set)){
+    if(sorted_set == NULL || isEmptySSet(sorted_set) == INT_TRUE){
         return false;
     }
 
