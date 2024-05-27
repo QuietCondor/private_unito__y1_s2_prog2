@@ -42,7 +42,7 @@ ContactBookADTptr mkCBook() {
 
 // distrugge la rubrica, recuperando la memoria, false se errore
 _Bool dsCBook(ContactBookADTptr* book) {
-    if(book == NULL){
+    if(book == NULL || *book == NULL){
         return false;
     }
 
@@ -92,7 +92,7 @@ _Bool cbook_add(ContactBookADTptr book, ContactPtr cnt) {
 
     bool insert_result = sset_add(book->contacts, cnt);
 
-    return true;
+    return insert_result;
 }
 
 // toglie un elemento all'insieme (restituisce false se l'elemento non era presente, true altrimenti)
@@ -138,6 +138,10 @@ ContactBookADTptr cbook_load(FILE* fin) {
 
     ContactBookADTptr rubrica = mkCBook();
 
+    if(rubrica == NULL){
+        return NULL;
+    }
+
     while(!feof(fin)){
         char* name = (char*) malloc(sizeof(char) * 100);
         char* surname = (char*) malloc(sizeof(char) * 100);
@@ -145,13 +149,18 @@ ContactBookADTptr cbook_load(FILE* fin) {
         char* url = (char*) malloc(sizeof(char) * 100);
         
         int scan_result = fscanf(fin, " %99[^,], %99[^,], %99[^,], %99[^\n]", name, surname, mobile, url);
-        printf("Name: '%s' Surname: '%s' Mobile: '%s' URL: '%s'\n", name, surname, mobile, url);
+        //printf("Name: '%s' Surname: '%s' Mobile: '%s' URL: '%s'\n", name, surname, mobile, url);
 
         if(scan_result){
             ContactPtr read_contact = mkContact(name, surname, mobile, url);
 
             cbook_add(rubrica, read_contact);
         }
+    }
+
+    if (cbook_size(rubrica) == 0){
+        dsCBook(&rubrica);
+        return NULL;
     }
 
     return rubrica;
@@ -164,7 +173,7 @@ _Bool cbook_dump(const ContactBookADT* book, FILE* fout) {
     }
 
     if(isEmptyCBook(book) == CONTACT_TRUE){
-        return true; // tecnicamente non ci sono stati errori, e' solo vuota la rubrica
+        return false; // tecnicamente non ci sono stati errori, e' solo vuota la rubrica
     }
 
     ContactPtr* arr_set = (ContactPtr*)sset_toArray(book->contacts);
@@ -175,7 +184,7 @@ _Bool cbook_dump(const ContactBookADT* book, FILE* fout) {
 
     for(int i=0; i < sset_size(book->contacts); i++){
         ContactPtr contact = arr_set[i];
-        fprintf(fout, "%s, %s, %s, %s\n", getName(contact), getSurname(contact), getMobile(contact), getUrl(contact));
+        fprintf(fout, "%s,%s,%s,%s\n", getName(contact), getSurname(contact), getMobile(contact), getUrl(contact));
     }
 
     return true;
